@@ -1,0 +1,57 @@
+﻿@Styles.Render("~/Content/JokeStyles")
+<div id="twentyJokesAlert" class="alert alert-info alert-dismissible text-center hidden" role="alert">
+    <strong>Whoa!</strong> That's a lot of dad jokes! Do you want more?
+    <button id="moreJokesBtn" type="button" class="close btn btn-block" data-dismiss="alert" aria-label="Close">More jokes!</button>
+    <button id="searchMoreJokesBtn" type="button" class="close btn btn-block" data-dismiss="alert" aria-label="Close">I want to search for a joke.</button>
+    <button id="noMoreJokesBtn" type="button" class="close btn-block" data-dismiss="alert" aria-label="Close">Im good for now.</button>
+</div>
+
+<div class="jumbotron">
+    <h1>Dad Joke Central</h1>
+    <p class="lead">The best dad jokes around, courtesy of icanhazdadjokes.com</p>
+
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <button id="RandomJokeBtn" data-url="@Url.Action("GetRandomJoke", "DadJoke")" type="button" class="btn btn-primary">Surpise me with a random joke!</button>
+    </div>
+    <div class="col-lg-6 pull-right">
+        <div class="input-group">
+            <input id="searchTerms" type="text" class="form-control" placeholder="Search for a joke">
+            <span class="input-group-btn">
+                <button class="btn btn-primary" data-page-number="0" data-url="@Url.Action("SearchForJokes", "DadJoke")" type="button" id="SearchForJokeBtn">I don't like surpises</button>
+            </span>
+        </div>
+    </div>
+</div>
+<div id="jokeContainer" class="container">
+    <div class="row">
+        <div class="col-lg">
+            <div id="errorAlert" class="alert alert-warning hidden" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error: Please enter a value in the search box.</span>
+            </div>
+            <div id="noJokeAlert" class="alert alert-info hidden" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Info: No Jokes found! Please try another word.</span>
+            </div>
+            <div class="progress hidden">
+                <div id="progressBarDiv" class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                    <span id="progressSpan" class="sr-only">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg">
+            <button id="previousPageBtn" data-next-page-number="" type="button" class="floatingPreviousBtn btn btn-primary hidden disabled"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>Previous Page</button>
+            <button id="nextPageBtn" data-previous-page-number="" type="button" class="floatingNextBtn btn btn-primary hidden disabled">Next Page<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button>
+            <div id="shortJokeDisplay" class="text-center"></div>
+            <div id="mediumJokeDisplay" class="text-center"></div>
+            <div id="longJokeDisplay" class="text-center"></div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jokes")
