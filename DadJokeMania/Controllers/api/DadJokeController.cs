@@ -9,7 +9,6 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using DadJokeMania.Models.ApiModels;
 using DadJokeMania.Services;
-using DadJokeMania.ViewModels;
 
 namespace DadJokeMania.Controllers.api
 {

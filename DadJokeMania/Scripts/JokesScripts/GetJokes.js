@@ -1,4 +1,4 @@
-﻿window.onscroll = function () { scrollFunction() };
+﻿window.onscroll = function () { scrollFunction(); };
 
 var timer = document.getElementById("progressBarDiv");
 var shortJokeDisplay = document.getElementById("shortJokeDisplay");
