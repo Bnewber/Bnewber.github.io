@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
@@ -18,8 +19,9 @@ namespace DadJokeMania.Services
 
         public void ConfigureService(HttpClient client)
         {
+            string apiUrl = ConfigurationManager.AppSettings["ICanHazDadJokesAPI"].ToString();
             Client = client;
-            BaseUri = new Uri("https://icanhazdadjoke.com/");
+            BaseUri = new Uri(apiUrl);
             HttpClientHandler handler = new HttpClientHandler();
             Client = new HttpClient(handler, false);
             Client.BaseAddress = BaseUri;
