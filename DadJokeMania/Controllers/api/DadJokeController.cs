@@ -8,42 +8,47 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using DadJokeMania.Models.ApiModels;
-using DadJokeMania.Services;
+using DadJokeMania.Clients;
+using System.Web.Http;
+using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
+using RouteAttribute = System.Web.Mvc.RouteAttribute;
 
 namespace DadJokeMania.Controllers.api
 {
-    public class DadJokeController : Controller
+    public class DadJokeController : ApiController
     {
         GetJokes _getJokes;
-        public static HttpClient _client;
         public DadJokeController()
         {
-            _client = new HttpClient();
-            _getJokes = new GetJokes(_client);
+            _getJokes = new GetJokes();
         }
         // GET: DadJoke/DadRandomJoke
-        public ActionResult GetRandomJoke()
+        [Route("api/DadJoke/RandomJoke")]
+        [HttpGet]
+        public IHttpActionResult RandomJoke()
         {
             try
             {
                 var joke = _getJokes.GetRandomDadJoke();
-                if (joke.Id == "") { return Json(new { success = false, responseText = "Aww Snap something went wrong, please try again." }, JsonRequestBehavior.AllowGet); }
+                if (joke.Id == "") { return ServerError(); }
 
-                return Json(new { success = true, Joke = new Models.ApiModels.DadJokeModel { Id = joke.Id, Joke = joke.Joke } }, JsonRequestBehavior.AllowGet);
+                return Ok(new { success = true, Joke = new Models.ApiModels.DadJokeModel { Id = joke.Id, Joke = joke.Joke } });
             }
             catch
             {
-                return Json(ServerError(), JsonRequestBehavior.AllowGet);
+                return ServerError();
             }
         }
 
         // GET: DadJoke/SearchForJokes
-        public ActionResult SearchForJokes(string queryTerms, int page)
+        [Route("api/DadJoke/SearchForJokes")]
+        [HttpGet]
+        public IHttpActionResult SearchForJokes(string queryTerms, int page)
         {
             string[] terms = queryTerms.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
             //Want to make sure the user provides a valid search term
-            if (terms.Length == 0) { return Json(new { success = false, responseText = "Please provide a word to search for." }, JsonRequestBehavior.AllowGet); }
+            if (terms.Length == 0) { return Ok(new { success = false, responseText = "Please provide a word to search for." }); }
             try
             {
                 var jokes = _getJokes.SearchForDadJokes(terms, page);
@@ -78,23 +83,23 @@ namespace DadJokeMania.Controllers.api
                     newJokes.Add(new DadJokeModel { Id = joke.Id, Joke = foundWord ? newJoke : joke.Joke });
                 }
 
-                return Json(new { success = true,
+                return Ok(new { success = true,
                                   Jokes = newJokes,
                                   currentPageNumber = jokes.Current_Page,
                                   totalPages = jokes.Total_Pages,
                                   nextPageNumber = jokes.Next_Page,
                                   previousPageNumber = jokes.Previous_Page
-                                }, JsonRequestBehavior.AllowGet);
+                                });
             }
             catch
             {
-                return Json(ServerError(), JsonRequestBehavior.AllowGet);
+                return ServerError();
             }
         }
 
-        public object ServerError()
+        public IHttpActionResult ServerError()
         {
-            return new { success = false, responseText = "Aww snap something went wrong, please reload the page and try again." };
+            return Ok(new { success = false, responseText = "Aww snap something went wrong, please reload the page and try again." });
         }
     }
 }

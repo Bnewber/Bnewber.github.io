@@ -5,10 +5,10 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DadJokeMania.Services
+namespace DadJokeMania.Clients
 {
-    interface IService
+    interface IClient
     {
-       void ConfigureService(HttpClient client);
+       void ConfigureClient();
     }
 }

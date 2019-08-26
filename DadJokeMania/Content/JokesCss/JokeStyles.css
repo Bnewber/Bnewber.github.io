@@ -12,14 +12,6 @@
     transition: none !important;
 }
 
-#countdown {
-    position: relative;
-    margin-top: 100px;
-    height: 40px;
-    width: 40px;
-    text-align: center;
-}
-
 #twentyJokesAlert{
     height:135px;
 }
@@ -28,12 +20,11 @@ button.close{
     margin:3px;
 }
 
-
 .floatingPreviousBtn {
     display: none;
     position: fixed;
     bottom: 20px;
-    right: 140px;
+    right: 160px;
     z-index: 99;
     cursor: pointer;
     padding: 15px;

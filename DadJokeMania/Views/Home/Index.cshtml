@@ -14,19 +14,19 @@
 
 <div class="row">
     <div class="col-lg-6">
-        <button id="RandomJokeBtn" data-url="@Url.Action("GetRandomJoke", "DadJoke")" type="button" class="btn btn-primary">Surpise me with a random joke!</button>
+        <button id="RandomJokeBtn" data-url="@Url.Action("RandomJoke", "api/DadJoke")" type="button" class="btn btn-primary">Surpise me with a random joke!</button>
     </div>
     <div class="col-lg-6 pull-right">
         <div class="input-group">
             <input id="searchTerms" type="text" class="form-control" placeholder="Search for a joke">
             <span class="input-group-btn">
-                <button class="btn btn-primary" data-page-number="0" data-url="@Url.Action("SearchForJokes", "DadJoke")" type="button" id="SearchForJokeBtn">I don't like surpises</button>
+                <button class="btn btn-primary" data-page-number="0" data-url="@Url.Action("SearchForJokes", "api/DadJoke")" type="button" id="SearchForJokeBtn">I don't like surpises</button>
             </span>
         </div>
     </div>
 </div>
-<div id="jokeContainer" class="container">
-    <div class="row">
+<div id="jokeContainer">
+    <div class="row container">
         <div class="col-lg">
             <div id="errorAlert" class="alert alert-warning hidden" role="alert">
                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -43,7 +43,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row container">
         <div class="col-lg">
             <button id="previousPageBtn" data-next-page-number="" type="button" class="floatingPreviousBtn btn btn-primary hidden disabled"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>Previous Page</button>
             <button id="nextPageBtn" data-previous-page-number="" type="button" class="floatingNextBtn btn btn-primary hidden disabled">Next Page<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button>

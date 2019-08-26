@@ -53,21 +53,21 @@ document.getElementById("SearchForJokeBtn").addEventListener("click", function (
 
                 if (data.success) {
 
-                    if (data.Jokes.length > 0) {
+                    if (data.jokes.length > 0) {
                         var shortJokeHtml = "";
                         var mediumJokeHtml = "";
                         var longJokeHtml = "";
 
-                        data.Jokes.forEach((joke) => {
-                            var jokeWordCount = joke.Joke.split(" ").length;
+                        data.jokes.forEach((joke) => {
+                            var jokeWordCount = joke.joke.split(" ").length;
 
                             //Group jokes by length
                             if (jokeWordCount <= 10) {
-                                shortJokeHtml += "<div class='well well-sm'><p>" + joke.Joke + "</p></div>";
+                                shortJokeHtml += "<div class='well well-sm'><p>" + joke.joke + "</p></div>";
                             } else if (jokeWordCount > 10 && jokeWordCount <= 15) {
-                                mediumJokeHtml += "<div class='well well-sm'><p>" + joke.Joke + "</p></div>";
+                                mediumJokeHtml += "<div class='well well-sm'><p>" + joke.joke + "</p></div>";
                             } else {
-                                longJokeHtml += "<div class='well well-sm'><p>" + joke.Joke + "</p></div>";
+                                longJokeHtml += "<div class='well well-sm'><p>" + joke.joke + "</p></div>";
                             }
 
                         });
@@ -88,15 +88,16 @@ document.getElementById("SearchForJokeBtn").addEventListener("click", function (
 
                         console.log(data);
                         if (data.currentPageNumber < data.totalPages) {
-                            $(nextPageBtn).removeClass("disabled");
+                            $(nextPageBtn).removeClass("disabled").removeAttr("disabled");
                         } else {
-                            $(nextPageBtn).addClass("disabled");
+                            $(nextPageBtn).addClass("disabled").attr("disabled", true);;
                         }
 
                         if (data.currentPageNumber > 1) {
-                            $(previousPageBtn).removeClass("disabled");
+                            $(previousPageBtn).removeClass("disabled").removeAttr("disabled");
+
                         } else {
-                            $(previousPageBtn).addClass("disabled");
+                            $(previousPageBtn).addClass("disabled").attr("disabled", true);
                         }
                     } else {
                         $(noJokeAlert).removeClass("hidden").html("No jokes found! Please try another word.");
@@ -106,7 +107,7 @@ document.getElementById("SearchForJokeBtn").addEventListener("click", function (
                 }
             },
             error: () => {
-                $(shortJokeDisplay).html = "<p>Aww Snap something went wrong, please try again.</p>";
+                $(errorAlert).removeClass("hidden").html("<p>Aww Snap something went wrong, please try again.</p>");
             }
         });
     } else {
@@ -177,27 +178,31 @@ function getRandomJoke(currButton, shortJokeDisplay) {
             dataType: "json",
             success: (data) => {
 
-                var shortJokeHtml = "";
-                shortJokeHtml += "<div class='well well-sm'><p>" + data.Joke.Joke + "</p></div>";
-                $(shortJokeDisplay).html(shortJokeHtml);
+                if (data.success) {
+                    var shortJokeHtml = "";
+                    shortJokeHtml += "<div class='well well-sm'><p>" + data.joke.joke + "</p></div>";
+                    $(shortJokeDisplay).html(shortJokeHtml);
 
-                stopProgressBar(timer);
-                $(timer).animate({
-                    width: "100%"
-                }, 10000);
+                    stopProgressBar(timer);
+                    $(timer).animate({
+                        width: "100%"
+                    }, 10000);
 
-                //check if we are already have a timer to fetch a new joke and stop it, 
-                //so that we can fetch a new one immediatly and not run into issues with multiple timers running
-                if (getJokeInterval !== -1) {
-                    clearInterval(getJokeInterval);
-                    getJokeInterval = startTimer(currButton, timer);
+                    //check if we are already have a timer to fetch a new joke and stop it, 
+                    //so that we can fetch a new one immediatly and not run into issues with multiple timers running
+                    if (getJokeInterval !== -1) {
+                        clearInterval(getJokeInterval);
+                        getJokeInterval = startTimer(currButton, timer);
+                    } else {
+                        getJokeInterval = startTimer(currButton, timer);
+                    }
                 } else {
-                    getJokeInterval = startTimer(currButton, timer);
+                    $(errorAlert).removeClass("hidden").html(data.responseText);
                 }
 
             },
             error: () => {
-                $(shortJokeDisplay).html = "<p>Aww Snap something went wrong, please try again.</p>";
+                $(errorAlert).removeClass("hidden").html("<p>Aww Snap something went wrong, please try again.</p>");
             }
         });
         randomJokeCount++;

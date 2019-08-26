@@ -22,7 +22,7 @@ namespace DadJokeMania
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "api/{controller}/{category}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }

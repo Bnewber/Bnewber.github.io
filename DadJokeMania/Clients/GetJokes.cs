@@ -6,14 +6,10 @@ using System.Web;
 using DadJokeMania.Models.ApiModels;
 using Newtonsoft.Json;
 
-namespace DadJokeMania.Services
+namespace DadJokeMania.Clients
 {
-    public class GetJokes : JokeService
+    public class GetJokes : JokeClient
     {
-        public GetJokes(HttpClient client):base(client)
-        {
-        }
-
         /// <summary>
         /// Get random dad joke from icanhazdadjoke.com
         /// </summary>
